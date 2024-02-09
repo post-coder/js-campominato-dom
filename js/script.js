@@ -46,9 +46,8 @@ function play() {
     const gameOverElement = document.querySelector("#game-over");
 
 
-    // inizializzo il punteggio a zero
-    let points = 0;
-
+    // inzializzo un array vuoto dove mi salverò i numeri cliccati
+    const clickedNumbers = [];
 
 
     // codice per generare la griglia
@@ -57,6 +56,10 @@ function play() {
     // test: stampiamo il valore della select
     const selectElement = document.querySelector("#difficulty");
     console.log(selectElement.value)
+
+
+
+
 
     // cambio il numero di celle da creare in base alla difficoltà
     if(selectElement.value == "easy") {
@@ -112,17 +115,24 @@ function play() {
                 // console.log("pestata una bomba");
                 this.classList.add("bomb");
 
-            } else if( ! this.classList.contains("clicked") ) {
+
+                // gestisco il gameOver
+                gameOver(gameOverElement, clickedNumbers.length);
+
+
+            } else if( ! clickedNumbers.includes(this.innerText)) {
                 // ho cliccato su una casella libera
                 
                 // aggiungo la classe all'elemento cliccato
                 this.classList.add("clicked");
-    
-                points++;
-                console.log("punteggio", points)
+
+                // aggiungo il numero cliccato all'array di numeri cliccati
+                clickedNumbers.push(this.innerText);
+
+                pointsElement.innerText = "Punteggio: " + clickedNumbers.length
             }
 
-
+            console.log("numeri cliccati", clickedNumbers)
 
         });
 
@@ -130,6 +140,19 @@ function play() {
 
 }
 
+
+
+
+function gameOver(gameOverElement, points) {
+
+    console.log("game over");
+
+    gameOverElement.style.display = "block";
+    gameOverElement.innerHTML = "Game Over<br><small>Punteggio: " + points + "</small>";
+
+
+
+}
 
 
 

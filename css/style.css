@@ -135,3 +135,11 @@ header button:hover {
 
     border-radius: 12px;
 }
+
+#game-over small {
+    display: inline-block;
+    margin-top: 1em;
+    opacity: .8;
+
+    font-family: monospace;
+}
