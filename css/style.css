@@ -65,6 +65,7 @@ header button:hover {
     /* bordo esterno */
     outline: 1px solid #ac0237;
 
+    margin-bottom: 48px;
 }
 
 #grid .cell {
@@ -102,3 +103,35 @@ header button:hover {
     font-weight: bold;
 }
 
+#grid .cell.bomb {
+    background-color: #ac0237;
+    color: white;
+}
+/* fine grid */
+
+
+
+/* user interface */
+
+#user-interface {
+    text-align: center;
+    font-size: 1.4em;
+}
+
+#points {
+    margin-bottom: 1em;
+}
+
+#game-over {
+    display: none;
+
+    
+    background-color: #ac0237;
+    color: white;
+
+    font-size: 1.8em;
+
+    padding: 24px 12px;
+
+    border-radius: 12px;
+}

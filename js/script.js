@@ -39,6 +39,17 @@ function play() {
     // mi salvo la griglia in una variabile
     const gridElement = document.querySelector("#grid");
 
+    // elemento del punteggio
+    const pointsElement = document.querySelector("#points");
+
+    // elemento per il game over
+    const gameOverElement = document.querySelector("#game-over");
+
+
+    // inizializzo il punteggio a zero
+    let points = 0;
+
+
 
     // codice per generare la griglia
     let cellNumber;
@@ -96,13 +107,21 @@ function play() {
             // se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - 
 
             if(bombs.includes(Number(this.innerText))) {
+                // ho cliccato una bomba
 
-                console.log("pestata una bomba");
+                // console.log("pestata una bomba");
+                this.classList.add("bomb");
 
+            } else if( ! this.classList.contains("clicked") ) {
+                // ho cliccato su una casella libera
+                
+                // aggiungo la classe all'elemento cliccato
+                this.classList.add("clicked");
+    
+                points++;
+                console.log("punteggio", points)
             }
 
-            // aggiungo la classe all'elemento cliccato
-            this.classList.add("clicked");
 
 
         });
