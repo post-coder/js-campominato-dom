@@ -17,6 +17,13 @@ o quando raggiunge il numero massimo possibile di numeri consentiti
 Al termine della partita il software deve comunicare il punteggio, 
 cioè il numero di volte che l’utente ha cliccato su una cella che non era una bomba.
 
+BONUS 1
+Quando si clicca su una bomba e finisce la partita, evitare che si possa cliccare su altre celle.
+
+BONUS 2
+Quando si clicca su una bomba e finisce la partita, il software scopre tutte le bombe nascoste.
+
+
 */
 
 
@@ -45,9 +52,17 @@ function play() {
     // elemento per il game over
     const gameOverElement = document.querySelector("#game-over");
 
+    // faccio sparire il gameOverElement in caso fosse visualizzato
+    gameOverElement.style.display = "none";
+    // resetto il testo del punteggio
+    pointsElement.innerText = "";
+
 
     // inzializzo un array vuoto dove mi salverò i numeri cliccati
     const clickedNumbers = [];
+
+    // inizializzo una variabile booleana che controlla quando c'è il game over
+    let gameOver = false;
 
 
     // codice per generare la griglia
@@ -58,6 +73,8 @@ function play() {
     console.log(selectElement.value)
 
 
+
+    
 
 
 
@@ -103,38 +120,44 @@ function play() {
         // aggiungo un event listener del click ad ogni cella
         newElement.addEventListener("click", function() {
 
+            if(!gameOver) {
 
-            // emetto un messaggio in console con il numero della cella cliccata
-            console.log(this.innerText);
+                // emetto un messaggio in console con il numero della cella cliccata
+                console.log(this.innerText);
 
-            // se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - 
+                // se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - 
 
-            if(bombs.includes(Number(this.innerText))) {
-                // ho cliccato una bomba
+                if(bombs.includes(Number(this.innerText))) {
+                    // ho cliccato una bomba
 
-                // console.log("pestata una bomba");
-                this.classList.add("bomb");
-
-
-                // gestisco il gameOver
-                gameOver(gameOverElement, clickedNumbers.length);
+                    // console.log("pestata una bomba");
+                    this.classList.add("bomb");
 
 
-            } else if( ! clickedNumbers.includes(this.innerText)) {
-                // ho cliccato su una casella libera
-                
-                // aggiungo la classe all'elemento cliccato
-                this.classList.add("clicked");
+                    // gestisco il gameOver
+                    endGame(gameOverElement, clickedNumbers.length, gridElement, bombs);
 
-                // aggiungo il numero cliccato all'array di numeri cliccati
-                clickedNumbers.push(this.innerText);
+                    // setto gameOver a true
+                    gameOver = true;
 
-                pointsElement.innerText = "Punteggio: " + clickedNumbers.length
+                } else if( ! clickedNumbers.includes(this.innerText)) {
+                    // ho cliccato su una casella libera
+                    
+                    // aggiungo la classe all'elemento cliccato
+                    this.classList.add("clicked");
+
+                    // aggiungo il numero cliccato all'array di numeri cliccati
+                    clickedNumbers.push(this.innerText);
+
+                    pointsElement.innerText = "Punteggio: " + clickedNumbers.length
+                }
+
+                console.log("numeri cliccati", clickedNumbers)
+
             }
-
-            console.log("numeri cliccati", clickedNumbers)
-
+            
         });
+
 
     }
 
@@ -143,13 +166,24 @@ function play() {
 
 
 
-function gameOver(gameOverElement, points) {
+function endGame(gameOverElement, points, gridElement, bombs) {
 
     console.log("game over");
 
     gameOverElement.style.display = "block";
     gameOverElement.innerHTML = "Game Over<br><small>Punteggio: " + points + "</small>";
 
+
+    // mi salvo tutte le celle della griglia in un array
+    const everyCellList = gridElement.querySelectorAll(".cell");
+    
+    for(let i = 0; i < everyCellList.length; i++) {
+        // per ogni cella della griglia
+
+        if(bombs.includes(Number(everyCellList[i].innerText))) {
+            everyCellList[i].classList.add("bomb");
+        }
+    }
 
 
 }

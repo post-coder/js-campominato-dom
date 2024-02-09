@@ -106,6 +106,8 @@ header button:hover {
 #grid .cell.bomb {
     background-color: #ac0237;
     color: white;
+
+    animation: bombFloat 2s ease infinite ;
 }
 /* fine grid */
 
@@ -142,4 +144,21 @@ header button:hover {
     opacity: .8;
 
     font-family: monospace;
+}
+
+
+
+@keyframes bombFloat {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+
+    }
 }
